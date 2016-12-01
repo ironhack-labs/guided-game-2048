@@ -94,9 +94,6 @@ var moveTilesUp = function (gameManager) {
     col[i] = null;
 
     if (col[newPositionX] && col[newPositionX] !== null) {
-      console.log('i:', i);
-      console.log('newPositionX:', newPositionX);
-      console.log('col:', col[newPositionX]);
       col[newPositionX].updatePosition(newPositionX, 0);
     }
   }
@@ -114,4 +111,46 @@ var _furtherUp = function (col, tileCurrentX) {
   }
 
   return 0;
+};
+
+var moveTilesDown = function (gameManager) {
+  var col = [
+    gameManager.board.matrix[0][0],
+    gameManager.board.matrix[1][0],
+    gameManager.board.matrix[2][0],
+    gameManager.board.matrix[3][0],
+  ];
+
+  for (var j = col.length - 1; j >= 0; j--) {
+    var newPositionY =  _furtherDown(col, j);
+
+    if (j === newPositionY) {
+      continue;
+    }
+
+    if (col[j] !== null) {
+      col[newPositionY] = col[j];
+      col[j] = null;
+
+      if (col[newPositionY] !== null) {
+        console.log("New pos Y", newPositionY);
+        col[newPositionY].updatePosition(newPositionY, 0);
+      }
+    }
+  }
+
+  gameManager._renderBoard();
+};
+// Fix thiiiiiis
+var _furtherDown = function (col, tileCurrentY) {
+  if (tileCurrentY === col.length - 1) {
+    return tileCurrentY;
+  }
+
+  for (var i = tileCurrentY + 1; i < col.length - 1; i++) {
+    if (col[i] !== null)
+      return i - 1;
+  }
+
+  return col.length - 1;
 };
