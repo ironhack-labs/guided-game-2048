@@ -1,5 +1,6 @@
 function GameManager () {
   this.htmlManager = new HtmlManager();
+  this.keyEventManager = new KeyEventManager();
   this._initialize();
 }
 
@@ -7,6 +8,7 @@ GameManager.prototype._initialize = function () {
   this.board = new Board();
   this._initializeTiles();
   this._renderBoard();
+  this.keyEventManager.listen();
 };
 
 GameManager.prototype._initializeTiles = function () {
@@ -14,7 +16,7 @@ GameManager.prototype._initializeTiles = function () {
     var position = this.board.getAvailablePosition();
     var value    = this.board.getTileInitialValue();
     var tile     = new Tile(value, position.x, position.y);
-    
+
     this.board.addTile(tile);
   }
 };
