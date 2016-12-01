@@ -1,6 +1,5 @@
 function GameManager () {
   this.htmlManager = new HtmlManager();
-  this.keyEventManager = new KeyEventManager();
   this._initialize();
 }
 
@@ -8,6 +7,7 @@ GameManager.prototype._initialize = function () {
   this.board = new Board();
   this._initializeTiles();
   this._renderBoard();
+  this.keyEventManager = new KeyEventManager(this.board);
   this.keyEventManager.listen();
 };
 
