@@ -5,3 +5,8 @@ function Tile (value, positionX, positionY) {
     y: positionY
   };
 }
+
+Tile.prototype.updatePosition = function (x,y) {
+  this.position.x = x;
+  this.position.y = y;
+};

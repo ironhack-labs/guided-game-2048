@@ -49,25 +49,3 @@ Board.prototype.getAvailablePosition = function () {
 Board.prototype._gameOver = function (availablePositions) {
   return availablePositions.length === 0;
 };
-
-Board.prototype.moveTilesLeft = function () {
-  var row0 = this.board.matrix[0];
-
-  for (var i = 0; i < row0.length; i++) {
-    this._furtherLeft(row0, row0[i], i);
-  }
-
-  // Rendering the board game
-  // Move this shit to the GameManager
-};
-
-Board.prototype._furtherLeft = function (row, tile, index) {
-  var lastNullPosition = index;
-
-  for (var i = index - 1; i >= 0; i--) {
-    if (row[i] !== null)
-      return lastNullPosition;
-
-    lastNullPosition = i;
-  }
-};

@@ -13,6 +13,18 @@ HtmlManager.prototype.renderTile = function (tile) {
   document.getElementById("tile-container").appendChild(html);
 };
 
+HtmlManager.prototype.resetRendering = function (matrix) {
+  var tileContainer = document.getElementById('tile-container');
+  var cells = tileContainer.getElementsByTagName('div');
+
+  if (Array.prototype.slice.call(cells, 0).length === 0)
+    return;
+
+  Array.prototype.slice.call(cells, 0).forEach(function (elem){
+    tileContainer.removeChild(elem);
+  });
+};
+
 HtmlManager.prototype._generateTileStyle = function (tile) {
   var cssClasses = ["tile"];
   cssClasses.push(this._getTilePositionClass(tile.position));
