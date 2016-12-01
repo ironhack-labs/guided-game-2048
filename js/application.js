@@ -1,1 +1,3 @@
-console.log("Application JS loaded...");
+window.onload =function(){
+  
+};
