@@ -75,3 +75,43 @@ var _furtherRight = function (row, tileCurrentY) {
 
   return row.length - 1;
 };
+
+var moveTilesUp = function (gameManager) {
+  var col = [
+    gameManager.board.matrix[0][0],
+    gameManager.board.matrix[1][0],
+    gameManager.board.matrix[2][0],
+    gameManager.board.matrix[3][0],
+  ];
+
+  for (var i = 0; i < col.length; i++) {
+    var newPositionX =  _furtherUp(col, i);
+    if (newPositionX === i) {
+      continue;
+    }
+
+    col[newPositionX] = col[i];
+    col[i] = null;
+
+    if (col[newPositionX] && col[newPositionX] !== null) {
+      console.log('i:', i);
+      console.log('newPositionX:', newPositionX);
+      console.log('col:', col[newPositionX]);
+      col[newPositionX].updatePosition(newPositionX, 0);
+    }
+  }
+  gameManager._renderBoard();
+};
+
+var _furtherUp = function (col, tileCurrentX) {
+  if (tileCurrentX === 0) {
+    return 0;
+  }
+
+  for (var i = tileCurrentX - 1; i >= 0; i--) {
+    if (col[i] !== null)
+      return i + 1;
+  }
+
+  return 0;
+};
