@@ -7,8 +7,10 @@ html, body {
   padding: 0;
 }
 
-.clearfix {
-  clear: both;
+h1 {
+  font-size: 50px;
+  letter-spacing: 2px;
+  text-align: center;
 }
 
 #container {
@@ -25,6 +27,14 @@ html, body {
   background: #43a3e6;
   border-radius: 4px;
   padding: 10px;
+}
+
+#game-board {
+  box-shadow: 1px 1px 10px 0 #999;
+}
+
+.clearfix {
+  clear: both;
 }
 
 .row {
@@ -45,8 +55,59 @@ html, body {
 
 .tile {
   background: goldenrod;
+  box-sizing: border-box;
+  color: #fff;
   float: none;
+  font-size: 55px;
+  font-weight: bold;
+  padding-top: 30px;
   position: absolute;
+  text-align: center;
+  text-shadow: 1px 1px 3px #000;
+}
+
+.tile.val-2 {
+  background: red;
+}
+
+.tile.val-4 {
+  background: blue;
+}
+
+.tile.val-8 {
+  background: green;
+}
+
+.tile.val-16 {
+  background: pink;
+}
+
+.tile.val-32 {
+  background: yellow;
+}
+
+.tile.val-64 {
+  background: orange;
+}
+
+.tile.val-128 {
+  background: purple;
+}
+
+.tile.val-256 {
+  background: coral;
+}
+
+.tile.val-512 {
+  background: silver;
+}
+
+.tile.val-1024 {
+  background: indianred;
+}
+
+.tile.val-2048 {
+  background: steelblue;
 }
 
 #tile-container {
