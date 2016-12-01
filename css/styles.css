@@ -24,7 +24,7 @@ h1 {
 
 #game-board,
 #tile-container {
-  background: #43a3e6;
+  background: #3582b8;
   border-radius: 4px;
   padding: 10px;
 }
@@ -54,7 +54,7 @@ h1 {
 }
 
 .tile {
-  background: goldenrod;
+  background: rgba(225, 226, 241, 0.35);
   box-sizing: border-box;
   color: #fff;
   float: none;
@@ -67,47 +67,51 @@ h1 {
 }
 
 .tile.val-2 {
-  background: red;
+  background: #93d2ff;
 }
 
 .tile.val-4 {
-  background: blue;
+  background: #4ab5ff;
 }
 
 .tile.val-8 {
-  background: green;
+  background: #289cef;
 }
 
 .tile.val-16 {
-  background: pink;
+  background: #2a72a3;
 }
 
 .tile.val-32 {
-  background: yellow;
+  background: #105a86;
 }
 
 .tile.val-64 {
-  background: orange;
+  background: #00548c;
 }
 
 .tile.val-128 {
-  background: purple;
+  background: #004777;
 }
 
 .tile.val-256 {
-  background: coral;
+  background: #002c4a;
 }
 
 .tile.val-512 {
-  background: silver;
+  background: #000F35;
 }
 
 .tile.val-1024 {
-  background: indianred;
+  background: #000921;
+  font-size: 50px;
+  padding-top: 35px;
 }
 
 .tile.val-2048 {
-  background: steelblue;
+  background: #009894;
+  font-size: 50px;
+  padding-top: 35px;
 }
 
 #tile-container {
