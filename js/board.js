@@ -11,7 +11,7 @@ function Board () {
 
   for (i = 0; i < 2; i++) {
     var pos = this._getAvailablePosition();
-    this.matrix[pos.x][pos.y] = this._getTileInitialValue();
+    this._generateTile(pos.x, pos.y);
   }
 }
 
@@ -21,11 +21,11 @@ Board.prototype._renderBoard = function () {
   }
 };
 
-Board.prototype._getTileInitialValue = function () {
+Board.prototype._generateTile = function (x, y) {
   var initialValues = ["2", "4"];
   var random        = Math.random();
 
-  return random < 0.8 ? initialValues[0] : initialValues[1];
+  this.matrix[x][y] = random < 0.8 ? initialValues[0] : initialValues[1];
 };
 
 Board.prototype._getAvailablePosition = function () {
@@ -60,19 +60,12 @@ Board.prototype.moveLeft = function () {
       }
     }
 
-    var merged = newRow.filter(
-      function (i) { return i !== null;
-    });
-
-    while(merged.length < 4) {
-      merged.push(null);
-    }
-
+    var merged = newRow.filter( function (i) { return i !== null; });
+    while(merged.length < 4) { merged.push(null); }
     newBoard.push(merged);
   });
 
   this.matrix = newBoard;
-  this._renderBoard();
 };
 
 Board.prototype.moveRight = function () {
@@ -88,61 +81,18 @@ Board.prototype.moveRight = function () {
       }
     }
 
-    var merged = newRow.filter(
-      function (i) { return i !== null;
-    });
-
-    while(merged.length < 4) {
-      merged.unshift(null);
-    }
-
+    var merged = newRow.filter( function (i) { return i !== null; });
+    while(merged.length < 4) { merged.unshift(null); }
     newBoard.push(merged);
   });
 
   this.matrix = newBoard;
-  this._renderBoard();
 };
 
 Board.prototype.moveUp = function () {
-  that = this;
-  var transposed_matrix = this.matrix[0].map(function(col, i) {
-    return that.matrix.map(function(row) {
-      return row[i];
-    });
-  });
-  var newBoard = [];
-
-  transposed_matrix.forEach (function (row) {
-    var newRow = row.filter(function (i) { return i !== null; });
-
-    for(i = 0; i < newRow.length - 1; i++) {
-      if (newRow[i+1] === newRow[i]) {
-        newRow[i+1] = newRow[i] * 2;
-        newRow[i] = null;
-      }
-    }
-
-    var merged = newRow.filter(
-      function (i) { return i !== null;
-    });
-
-    while(merged.length < 4) {
-      merged.push(null);
-    }
-
-    newBoard.push(merged);
-  });
-
-  // Reversing the matrix transposition
-  var fixed_newBoard = newBoard[0].map(function(col, i) {
-      return newBoard.map(function(row) {
-        return row[i];
-      });
-    });
-
-
-  this.matrix = fixed_newBoard;
-  this._renderBoard();
+  this._transposeMatrix();
+  this.moveLeft();
+  this._transposeMatrix();
 };
 
 Board.prototype.moveDown = function () {
@@ -164,28 +114,36 @@ Board.prototype.moveDown = function () {
       }
     }
 
-    var merged = newRow.filter(
-      function (i) { return i !== null;
-    });
+    var merged = newRow.filter(function (i) { return i !== null;});
 
-    while(merged.length < 4) {
-      merged.unshift(null);
-    }
+    while(merged.length < 4) { merged.unshift(null); }
 
     newBoard.push(merged);
   });
+  this._transposeMatrix();
+  this.moveRight();
+  this._transposeMatrix();
+};
 
-// Reversing the matrix transposition
-  var fixed_newBoard = newBoard[0].map(function(col, i) {
-      return newBoard.map(function(row) {
-        return row[i];
-      });
-    });
+Board.prototype.move = function (direction) {
+  switch (direction) {
+    case "up":    this.moveUp();    break;
+    case "down":  this.moveDown();  break;
+    case "left":  this.moveLeft();  break;
+    case "right": this.moveRight(); break;
+  }
 
-
-  this.matrix = fixed_newBoard;
   this._renderBoard();
+};
 
+Board.prototype._transposeMatrix = function() {
+  for (var row = 0; row < this.matrix.length; row++) {
+    for (var column = row+1; column < this.matrix.length; column++) {
+      var temp = this.matrix[row][column];
+      this.matrix[row][column] = this.matrix[column][row];
+      this.matrix[column][row] = temp;
+    }
+  }
 };
 
 var board = new Board();
