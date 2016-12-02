@@ -133,6 +133,48 @@ Board.prototype.moveUp = function () {
     newBoard.push(merged);
   });
 
+  // Reversing the matrix transposition
+  var fixed_newBoard = newBoard[0].map(function(col, i) {
+      return newBoard.map(function(row) {
+        return row[i];
+      });
+    });
+
+
+  this.matrix = fixed_newBoard;
+  this._renderBoard();
+};
+
+Board.prototype.moveDown = function () {
+  that = this;
+  var transposed_matrix = this.matrix[0].map(function(col, i) {
+    return that.matrix.map(function(row) {
+      return row[i];
+    });
+  });
+  var newBoard = [];
+
+  transposed_matrix.forEach (function (row) {
+    var newRow = row.filter(function (i) { return i !== null; });
+
+    for(i = newRow.length-1; i > 0; i--) {
+      if (newRow[i-1] === newRow[i]) {
+        newRow[i-1] = newRow[i] * 2;
+        newRow[i] = null;
+      }
+    }
+
+    var merged = newRow.filter(
+      function (i) { return i !== null;
+    });
+
+    while(merged.length < 4) {
+      merged.unshift(null);
+    }
+
+    newBoard.push(merged);
+  });
+
 // Reversing the matrix transposition
   var fixed_newBoard = newBoard[0].map(function(col, i) {
       return newBoard.map(function(row) {
@@ -143,10 +185,6 @@ Board.prototype.moveUp = function () {
 
   this.matrix = fixed_newBoard;
   this._renderBoard();
-
-};
-
-Board.prototype.moveDown = function () {
 
 };
 
