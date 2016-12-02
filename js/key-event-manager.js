@@ -64,36 +64,42 @@ var _furtherRight = function (row, tileCurrentY) {
 };
 
 var moveTilesUp = function (gameManager) {
-  var col = [
-    gameManager.board.matrix[0][0],
-    gameManager.board.matrix[1][0],
-    gameManager.board.matrix[2][0],
-    gameManager.board.matrix[3][0],
-  ];
+  var matrix = gameManager.board.matrix;
 
-  for (var i = 0; i < col.length; i++) {
-    var newPositionX =  _furtherUp(col, i);
-    if (newPositionX === i) {
-      continue;
-    }
+  for (var col = 0; col < matrix.length; col++) {
+    var currentCol = _getColumn(matrix, col);
 
-    col[newPositionX] = col[i];
-    col[i] = null;
+    // The cell loop starts in 1 to avoid unnecessary checking of the first cell
+    for (var cell = 1; cell < currentCol.length; cell++) {
+      if (!currentCol[cell])
+        continue;
 
-    if (col[newPositionX] && col[newPositionX] !== null) {
-      col[newPositionX].updatePosition(newPositionX, 0);
+      var newPositionX =  _furtherUp(currentCol, cell);
+
+      if (newPositionX === cell)
+        continue;
+
+      currentCol[newPositionX] = currentCol[cell];
+      currentCol[cell] = null;
+      currentCol[newPositionX].updatePosition(newPositionX, col);
     }
   }
 };
 
-var _furtherUp = function (col, tileCurrentX) {
-  if (tileCurrentX === 0) {
-    return 0;
-  }
+function _getColumn(board, columnIndex) {
+  return [
+    board[0][columnIndex],
+    board[1][columnIndex],
+    board[2][columnIndex],
+    board[3][columnIndex]
+  ];
+}
 
+var _furtherUp = function (col, tileCurrentX) {
   for (var i = tileCurrentX - 1; i >= 0; i--) {
-    if (col[i] !== null)
+    if (col[i] !== null) {
       return i + 1;
+    }
   }
 
   return 0;

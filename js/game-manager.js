@@ -21,19 +21,19 @@ GameManager.prototype._initialize = function () {
 // };
 
 GameManager.prototype._initializeTiles = function () {
-  this.board.addTile(new Tile("2", 0, 0));
-
-  this.board.addTile(new Tile("2", 1, 0));
-  this.board.addTile(new Tile("4", 1, 1 ));
-
-  this.board.addTile(new Tile("2", 2, 0));
-  this.board.addTile(new Tile("128", 2, 1 ));
-  this.board.addTile(new Tile("8", 2, 2 ));
-
   this.board.addTile(new Tile("2", 3, 0));
-  this.board.addTile(new Tile("4", 3, 1 ));
-  this.board.addTile(new Tile("8", 3, 2 ));
-  this.board.addTile(new Tile("16", 3, 3 ));
+
+  this.board.addTile(new Tile("2", 3, 1));
+  this.board.addTile(new Tile("4", 2, 1));
+
+  this.board.addTile(new Tile("2", 3, 2));
+  // this.board.addTile(new Tile("128", 2, 2));
+  this.board.addTile(new Tile("8", 1, 2 ));
+
+  this.board.addTile(new Tile("2", 3, 3));
+  this.board.addTile(new Tile("4", 2, 3));
+  // this.board.addTile(new Tile("8", 1, 3));
+  this.board.addTile(new Tile("16", 0, 3));
 };
 
 GameManager.prototype._renderBoard = function () {
