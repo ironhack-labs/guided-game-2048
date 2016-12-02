@@ -2,25 +2,21 @@ var moveTilesLeft = function (gameManager) {
   var rowSize = gameManager.board.matrix.length;
   var colSize = gameManager.board.matrix[0].length;
   var matrix  = gameManager.board.matrix;
-
-  for (var i = 0; i < rowSize; i++) {
-    for (var j = 0; j < colSize; j++) {
-      var newPositionY =  _furtherLeft(matrix[i], j);
-
-      if (newPositionY === j) {
+  // The loop starts in 1 to avoid unnecessary checking of the first cell
+  for (var row = 0; row < rowSize; row++) {
+    for (var cell = 1; cell < colSize; cell++) {
+      if (!matrix[row][cell])
         continue;
-      }
 
-      matrix[i][newPositionY] = matrix[i][j];
-      matrix[i][j] = null;
-
-      if (matrix[i][newPositionY] && matrix[i][newPositionY] !== null) {
-        matrix[i][newPositionY].updatePosition(i, newPositionY);
-      }
+      var newPositionY =  _furtherLeft(matrix[row], cell);
+      if (newPositionY === cell)
+        continue;
+        
+      matrix[row][newPositionY] = matrix[row][cell];
+      matrix[row][cell] = null;
+      matrix[row][newPositionY].updatePosition(row, newPositionY);
     }
   }
-
-  gameManager._renderBoard();
 };
 
 var moveTilesRight = function (gameManager) {
@@ -28,32 +24,27 @@ var moveTilesRight = function (gameManager) {
   var colSize = gameManager.board.matrix[0].length;
   var matrix  = gameManager.board.matrix;
 
-  for (var i = 0; i < rowSize; i++) {
-    for (var j = colSize - 1; j >= 0; j--) {
-      var newPositionY =  _furtherRight(matrix[i], matrix[i][j], j);
+  for (var row = 0; row < rowSize; row++) {
+    for (var cell = colSize - 1; cell >= 0; cell--) {
+      var newPositionY =  _furtherRight(matrix[row], cell);
 
-      if (j === newPositionY) {
+      if (cell === newPositionY) {
         continue;
       }
 
-      if (matrix[i][j] !== null) {
-        matrix[i][newPositionY] = matrix[i][j];
-        matrix[i][j] = null;
+      if (matrix[row][cell] !== null) {
+        matrix[row][newPositionY] = matrix[row][cell];
+        matrix[row][cell] = null;
 
-        if (matrix[i][newPositionY] && matrix[i][newPositionY] !== null) {
-          matrix[i][newPositionY].updatePosition(i, newPositionY);
+        if (matrix[row][newPositionY] && matrix[row][newPositionY] !== null) {
+          matrix[row][newPositionY].updatePosition(row, newPositionY);
         }
       }
     }
   }
-
-  gameManager._renderBoard();
 };
 
 var _furtherLeft = function (row, tileCurrentY) {
-  if (tileCurrentY === 0) {
-    return 0;
-  }
 
   for (var i = tileCurrentY - 1; i >= 0; i--) {
     if (row[i] !== null)
@@ -97,7 +88,6 @@ var moveTilesUp = function (gameManager) {
       col[newPositionX].updatePosition(newPositionX, 0);
     }
   }
-  gameManager._renderBoard();
 };
 
 var _furtherUp = function (col, tileCurrentX) {
@@ -138,8 +128,6 @@ var moveTilesDown = function (gameManager) {
       }
     }
   }
-
-  gameManager._renderBoard();
 };
 // Fix thiiiiiis
 var _furtherDown = function (col, tileCurrentY) {

@@ -10,14 +10,30 @@ GameManager.prototype._initialize = function () {
   this._listen();
 };
 
-GameManager.prototype._initializeTiles = function () {
-  for (var i = 0; i < 2; i++) {
-    var position = this.board.getAvailablePosition();
-    var value    = this.board.getTileInitialValue();
-    var tile     = new Tile(value, position.x, position.y);
+// GameManager.prototype._initializeTiles = function () {
+//   for (var i = 0; i < 2; i++) {
+//     var position = this.board.getAvailablePosition();
+//     var value    = this.board.getTileInitialValue();
+//     var tile     = new Tile(value, position.x, position.y);
+//
+//     this.board.addTile(tile);
+//   }
+// };
 
-    this.board.addTile(tile);
-  }
+GameManager.prototype._initializeTiles = function () {
+  this.board.addTile(new Tile("2", 0, 0));
+
+  this.board.addTile(new Tile("2", 1, 0));
+  this.board.addTile(new Tile("4", 1, 1 ));
+
+  this.board.addTile(new Tile("2", 2, 0));
+  this.board.addTile(new Tile("128", 2, 1 ));
+  this.board.addTile(new Tile("8", 2, 2 ));
+
+  this.board.addTile(new Tile("2", 3, 0));
+  this.board.addTile(new Tile("4", 3, 1 ));
+  this.board.addTile(new Tile("8", 3, 2 ));
+  this.board.addTile(new Tile("16", 3, 3 ));
 };
 
 GameManager.prototype._renderBoard = function () {
@@ -39,5 +55,8 @@ GameManager.prototype._listen = function () {
     else if (event.keyCode === 39) { moveTilesRight(that); }
     else if (event.keyCode === 38) { moveTilesUp(that); }
     else if (event.keyCode === 40) { moveTilesDown(that); }
+
+    that._renderBoard();
   });
+
 };
