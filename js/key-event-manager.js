@@ -2,16 +2,18 @@ var moveTilesLeft = function (gameManager) {
   var rowSize = gameManager.board.matrix.length;
   var colSize = gameManager.board.matrix[0].length;
   var matrix  = gameManager.board.matrix;
-  // The loop starts in 1 to avoid unnecessary checking of the first cell
+
   for (var row = 0; row < rowSize; row++) {
+    // The cell loop starts in 1 to avoid unnecessary checking of the first cell
     for (var cell = 1; cell < colSize; cell++) {
       if (!matrix[row][cell])
         continue;
 
       var newPositionY =  _furtherLeft(matrix[row], cell);
+
       if (newPositionY === cell)
         continue;
-        
+
       matrix[row][newPositionY] = matrix[row][cell];
       matrix[row][cell] = null;
       matrix[row][newPositionY].updatePosition(row, newPositionY);
@@ -25,27 +27,24 @@ var moveTilesRight = function (gameManager) {
   var matrix  = gameManager.board.matrix;
 
   for (var row = 0; row < rowSize; row++) {
-    for (var cell = colSize - 1; cell >= 0; cell--) {
+    // The cell loop begins before last one to avoid unnecessary checking of the last cell
+    for (var cell = colSize - 2; cell >= 0; cell--) {
+      if (!matrix[row][cell])
+        continue;
+
       var newPositionY =  _furtherRight(matrix[row], cell);
 
-      if (cell === newPositionY) {
+      if (newPositionY === cell)
         continue;
-      }
 
-      if (matrix[row][cell] !== null) {
-        matrix[row][newPositionY] = matrix[row][cell];
-        matrix[row][cell] = null;
-
-        if (matrix[row][newPositionY] && matrix[row][newPositionY] !== null) {
-          matrix[row][newPositionY].updatePosition(row, newPositionY);
-        }
-      }
+      matrix[row][newPositionY] = matrix[row][cell];
+      matrix[row][cell] = null;
+      matrix[row][newPositionY].updatePosition(row, newPositionY);
     }
   }
 };
 
 var _furtherLeft = function (row, tileCurrentY) {
-
   for (var i = tileCurrentY - 1; i >= 0; i--) {
     if (row[i] !== null)
       return i + 1;
@@ -55,13 +54,10 @@ var _furtherLeft = function (row, tileCurrentY) {
 };
 
 var _furtherRight = function (row, tileCurrentY) {
-  if (tileCurrentY === row.length - 1) {
-    return tileCurrentY;
-  }
-
-  for (var i = tileCurrentY + 1; i < row.length - 1; i++) {
-    if (row[i] !== null)
-      return i + 1;
+  for (var i = tileCurrentY + 1; i < row.length; i++) {
+    if (row[i] !== null) {
+      return i - 1;
+    }
   }
 
   return row.length - 1;
