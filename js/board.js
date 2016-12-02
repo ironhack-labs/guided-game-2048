@@ -1,5 +1,6 @@
 function Board () {
   this.matrix = [];
+  this.score  = 0;
 
   for (var i = 0; i < 4; i++) {
     this.matrix.push([]);
@@ -10,8 +11,7 @@ function Board () {
   }
 
   for (i = 0; i < 2; i++) {
-    var pos = this._getAvailablePosition();
-    this._generateTile(pos.x, pos.y);
+    this._generateTile();
   }
 }
 
@@ -19,13 +19,15 @@ Board.prototype._renderBoard = function () {
   for (var i = 0; i < 4; i++) {
     console.log(this.matrix[i]);
   }
+  this._printScore();
 };
 
-Board.prototype._generateTile = function (x, y) {
-  var initialValues = ["2", "4"];
+Board.prototype._generateTile = function () {
+  var initialValues = [2, 4];
   var random        = Math.random();
+  var pos           = this._getAvailablePosition();
 
-  this.matrix[x][y] = random < 0.8 ? initialValues[0] : initialValues[1];
+  this.matrix[pos.x][pos.y] = random < 0.8 ? initialValues[0] : initialValues[1];
 };
 
 Board.prototype._getAvailablePosition = function () {
@@ -49,6 +51,7 @@ Board.prototype._getAvailablePosition = function () {
 
 Board.prototype.moveLeft = function () {
   var newBoard = [];
+  var that = this;
 
   this.matrix.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
@@ -56,6 +59,7 @@ Board.prototype.moveLeft = function () {
     for(i = 0; i < newRow.length - 1; i++) {
       if (newRow[i+1] === newRow[i]) {
         newRow[i+1] = newRow[i] * 2;
+        that._updateScore(newRow[i] * 2);
         newRow[i] = null;
       }
     }
@@ -70,13 +74,14 @@ Board.prototype.moveLeft = function () {
 
 Board.prototype.moveRight = function () {
   var newBoard = [];
-
+  var that = this;
   this.matrix.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
 
     for(i = newRow.length-1; i > 0; i--) {
       if (newRow[i-1] === newRow[i]) {
         newRow[i-1] = newRow[i] * 2;
+        that._updateScore(newRow[i] * 2);
         newRow[i] = null;
       }
     }
@@ -133,6 +138,7 @@ Board.prototype.move = function (direction) {
     case "right": this.moveRight(); break;
   }
 
+  this._generateTile();
   this._renderBoard();
 };
 
@@ -144,6 +150,14 @@ Board.prototype._transposeMatrix = function() {
       this.matrix[column][row] = temp;
     }
   }
+};
+
+Board.prototype._updateScore = function(pointsGained) {
+  this.score += pointsGained;
+};
+
+Board.prototype._printScore = function() {
+  console.log("Score:", this.score);
 };
 
 var board = new Board();
