@@ -10,25 +10,10 @@ function Board () {
     }
   }
 
-  this.matrix[0][1] = 1;
-  this.matrix[0][2] = 2;
-  this.matrix[0][3] = 3;
-  this.matrix[0][4] = 4;
-  this.matrix[1][1] = 5;
-  this.matrix[1][2] = 6;
-  this.matrix[1][3] = 7;
-  this.matrix[1][4] = 8;
-  this.matrix[2][1] = 9;
-  this.matrix[2][2] = 10;
-  this.matrix[2][3] = 11;
-  this.matrix[2][4] = 12;
-  this.matrix[3][1] = 13;
-  this.matrix[3][2] = 14;
-  this.matrix[3][3] = 15;
-  this.matrix[3][4] = 16;
-  // for (i = 0; i < 2; i++) {
-  //   this._generateTile();
-  // }
+
+  for (i = 0; i < 2; i++) {
+    this._generateTile();
+  }
 }
 
 Board.prototype._renderBoard = function () {
