@@ -61,10 +61,10 @@ GameManager.prototype._moveLeft = function () {
     for(i = 0; i < newRow.length - 1; i++) {
       if (newRow[i+1] === newRow[i]) {
         var value = newRow[i] * 2;
-        newRow[i+1] = value;
+        newRow[i] = value;
         that._updateScore(value);
         console.log(that._win(value));
-        newRow[i] = null;
+        newRow[i + 1] = null;
       }
     }
 
@@ -82,13 +82,13 @@ GameManager.prototype._moveRight = function () {
   this.matrix.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
 
-    for(i = newRow.length-1; i > 0; i--) {
+    for(i = newRow.length - 1; i > 0; i--) {
       if (newRow[i-1] === newRow[i]) {
         var value = newRow[i] * 2;
-        newRow[i-1] = value;
+        newRow[i] = value;
         that._updateScore(value);
-        console.log(that._win(value));
-        newRow[i] = null;
+        that._win(value);
+        newRow[i - 1] = null;
       }
     }
 
