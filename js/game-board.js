@@ -1,4 +1,4 @@
-function Board () {
+function GameManager () {
   this.matrix = [];
   this.score  = 0;
 
@@ -15,7 +15,7 @@ function Board () {
   }
 }
 
-Board.prototype._renderBoard = function () {
+GameManager.prototype._renderBoard = function () {
   for (var i = 0; i < 4; i++) {
     console.log(this.matrix[i]);
   }
@@ -23,7 +23,7 @@ Board.prototype._renderBoard = function () {
   this._printScore();
 };
 
-Board.prototype._generateTile = function () {
+GameManager.prototype._generateTile = function () {
   var initialValues = [2, 4];
   var random        = Math.random();
   var pos           = this._getAvailablePosition();
@@ -32,7 +32,7 @@ Board.prototype._generateTile = function () {
     this.matrix[pos.x][pos.y] = random < 0.8 ? initialValues[0] : initialValues[1];
 };
 
-Board.prototype._getAvailablePosition = function () {
+GameManager.prototype._getAvailablePosition = function () {
   var availablePositions = [];
 
   for (var i = 0; i < 4; i++) {
@@ -51,7 +51,7 @@ Board.prototype._getAvailablePosition = function () {
   }
 };
 
-Board.prototype._moveLeft = function () {
+GameManager.prototype._moveLeft = function () {
   var newBoard = [];
   var that = this;
 
@@ -76,7 +76,7 @@ Board.prototype._moveLeft = function () {
   this.matrix = newBoard;
 };
 
-Board.prototype._moveRight = function () {
+GameManager.prototype._moveRight = function () {
   var newBoard = [];
   var that = this;
   this.matrix.forEach (function (row) {
@@ -100,19 +100,19 @@ Board.prototype._moveRight = function () {
   this.matrix = newBoard;
 };
 
-Board.prototype._moveUp = function () {
+GameManager.prototype._moveUp = function () {
   this._transposeMatrix();
   this._moveLeft();
   this._transposeMatrix();
 };
 
-Board.prototype._moveDown = function () {
+GameManager.prototype._moveDown = function () {
   this._transposeMatrix();
   this._moveRight();
   this._transposeMatrix();
 };
 
-Board.prototype.move = function (direction) {
+GameManager.prototype.move = function (direction) {
   switch (direction) {
     case "up":    this._moveUp();    break;
     case "down":  this._moveDown();  break;
@@ -124,7 +124,7 @@ Board.prototype.move = function (direction) {
   this._renderBoard();
 };
 
-Board.prototype._transposeMatrix = function() {
+GameManager.prototype._transposeMatrix = function() {
   for (var row = 0; row < this.matrix.length; row++) {
     for (var column = row+1; column < this.matrix.length; column++) {
       var temp = this.matrix[row][column];
@@ -134,18 +134,18 @@ Board.prototype._transposeMatrix = function() {
   }
 };
 
-Board.prototype._updateScore = function(pointsGained) {
+GameManager.prototype._updateScore = function(pointsGained) {
   this.score += pointsGained;
 };
 
-Board.prototype._printScore = function() {
+GameManager.prototype._printScore = function() {
   console.log("Score:", this.score);
 };
 
-Board.prototype._win = function(value) {
+GameManager.prototype._win = function(value) {
   if (value == 2048)
     return true;
 };
 
-var board = new Board();
-board._renderBoard();
+var game = new GameManager();
+game._renderBoard();
