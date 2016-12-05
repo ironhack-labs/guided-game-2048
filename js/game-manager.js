@@ -9,10 +9,12 @@ function GameManager () {
       this.matrix[i].push(null);
     }
   }
+  this.matrix[0][0] = 2;
+  this.matrix[1][0] = 2; 
 
-  for (i = 0; i < 2; i++) {
-    this._generateTile();
-  }
+  // for (i = 0; i < 2; i++) {
+  //   this._generateTile();
+  // }
 }
 
 GameManager.prototype._renderBoard = function () {
@@ -54,6 +56,7 @@ GameManager.prototype._getAvailablePosition = function () {
 GameManager.prototype._moveLeft = function () {
   var newBoard = [];
   var that = this;
+  var boardChanged = false;
 
   this.matrix.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
@@ -63,22 +66,27 @@ GameManager.prototype._moveLeft = function () {
         var value = newRow[i] * 2;
         newRow[i] = value;
         that._updateScore(value);
-        console.log(that._win(value));
         newRow[i + 1] = null;
       }
     }
 
     var merged = newRow.filter( function (i) { return i !== null; });
     while(merged.length < 4) { merged.push(null); }
+    if (newRow != row)
+      boardChanged = true;
+
     newBoard.push(merged);
   });
 
   this.matrix = newBoard;
+  return boardChanged;
 };
 
 GameManager.prototype._moveRight = function () {
   var newBoard = [];
   var that = this;
+  var boardChanged = false;
+
   this.matrix.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
 
@@ -90,6 +98,8 @@ GameManager.prototype._moveRight = function () {
         that._win(value);
         newRow[i - 1] = null;
       }
+      if (newRow.length !== row.length)
+        boardChanged = true;
     }
 
     var merged = newRow.filter( function (i) { return i !== null; });
@@ -98,29 +108,35 @@ GameManager.prototype._moveRight = function () {
   });
 
   this.matrix = newBoard;
+  return boardChanged;
 };
 
 GameManager.prototype._moveUp = function () {
   this._transposeMatrix();
-  this._moveLeft();
+  var boardChanged = this._moveLeft();
   this._transposeMatrix();
+  return boardChanged;
 };
 
 GameManager.prototype._moveDown = function () {
   this._transposeMatrix();
-  this._moveRight();
+  var boardChanged = this._moveRight();
   this._transposeMatrix();
+  return boardChanged;
 };
 
 GameManager.prototype.move = function (direction) {
+  var scored;
   switch (direction) {
-    case "up":    this._moveUp();    break;
-    case "down":  this._moveDown();  break;
-    case "left":  this._moveLeft();  break;
-    case "right": this._moveRight(); break;
+    case "up":    boardChanged = this._moveUp();    break;
+    case "down":  boardChanged = this._moveDown();  break;
+    case "left":  boardChanged = this._moveLeft();  break;
+    case "right": boardChanged = this._moveRight(); break;
   }
 
-  this._generateTile();
+  if (boardChanged)
+    this._generateTile();
+
   this._renderBoard();
 };
 
