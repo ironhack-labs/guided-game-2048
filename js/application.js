@@ -31,7 +31,18 @@ function renderTiles () {
   });
 }
 
-function moveListeners(event) {
+function updateScore () {
+  var score          = game.score;
+  var scoreContainer = document.getElementById("score").getElementsByTagName("span")[0];
+
+  scoreContainer.innerHTML = score;
+}
+
+function gameCanContinue () {
+  
+}
+
+function moveListeners (event) {
   var keys = [37, 38, 39, 40];
 
   if (keys.indexOf(event.keyCode) < 0)
@@ -46,6 +57,7 @@ function moveListeners(event) {
 
   resetTiles();
   renderTiles();
+  updateScore();
 }
 
 document.addEventListener("keydown", moveListeners);
