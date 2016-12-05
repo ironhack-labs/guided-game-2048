@@ -1,5 +1,10 @@
+html {
+  background: url(../img/background.jpg);
+  background-size: cover;
+}
+
 html, body {
-  background: #ededed;
+  /*background: #ededed;*/
   color: #3c5566;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
@@ -7,10 +12,28 @@ html, body {
   padding: 0;
 }
 
-h1 {
-  font-size: 50px;
-  letter-spacing: 2px;
+header {
+  padding-bottom: 40px;
+}
+
+#score {
+  background-color: #43a3e6;
+  border-radius: 3px;
+  box-shadow: 0px 0px 10px 0px rgba(143,133,117,1);
+  color: #fff;
+  font-size: 25px;
+  font-weight: 600;
+  height: 55px;
+  padding: 15px 25px;
   text-align: center;
+  width: 80px;
+}
+
+h1 {
+  font-size: 80px;
+  letter-spacing: 2px;
+  text-align: right;
+  text-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
 }
 
 #container {
