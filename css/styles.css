@@ -23,7 +23,8 @@ h1 {
 }
 
 #game-board,
-#tile-container {
+#tile-container,
+#user-lose {
   background: #3582b8;
   border-radius: 4px;
   padding: 10px;
@@ -114,7 +115,8 @@ h1 {
   padding-top: 35px;
 }
 
-#tile-container {
+#tile-container,
+#user-lose {
   top: 0;
   position: absolute;
 }
@@ -181,4 +183,24 @@ h1 {
 
 .tile.tile-position-3-3 {
   transform: translate(450px, 450px);
+}
+
+#user-lose {
+  background: rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  color: #3582b8;
+  font-size: 40px;
+  font-weight: bold;
+  height: 620px;
+  padding-top: 200px;
+  text-align: center;
+  width: 622px;
+}
+
+#user-lose.hide {
+  display: none;
+}
+
+#user-lose p {
+  font-weight: normal;
 }
