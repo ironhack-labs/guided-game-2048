@@ -38,6 +38,10 @@ function updateScore () {
   scoreContainer.innerHTML = score;
 }
 
+function gameCanContinue () {
+  
+}
+
 function moveListeners (event) {
   var keys = [37, 38, 39, 40];
 
