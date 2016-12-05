@@ -9,21 +9,19 @@ function GameManager () {
       this.matrix[i].push(null);
     }
   }
-  this.matrix[0][0] = 2;
-  this.matrix[1][0] = 2; 
 
-  // for (i = 0; i < 2; i++) {
-  //   this._generateTile();
-  // }
+  for (i = 0; i < 2; i++) {
+    this._generateTile();
+  }
 }
 
-GameManager.prototype._renderBoard = function () {
-  for (var i = 0; i < 4; i++) {
-    console.log(this.matrix[i]);
-  }
-
-  this._printScore();
-};
+// GameManager.prototype._renderBoard = function () {
+//   for (var i = 0; i < 4; i++) {
+//     console.log(this.matrix[i]);
+//   }
+//
+//   this._printScore();
+// };
 
 GameManager.prototype._generateTile = function () {
   var initialValues = [2, 4];
@@ -137,7 +135,7 @@ GameManager.prototype.move = function (direction) {
   if (boardChanged)
     this._generateTile();
 
-  this._renderBoard();
+  // this._renderBoard();
 };
 
 GameManager.prototype._transposeMatrix = function() {
