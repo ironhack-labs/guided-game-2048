@@ -157,6 +157,6 @@ GameManager.prototype._printScore = function() {
 };
 
 GameManager.prototype._win = function(value) {
-  if (value == 2048)
+  if (value === 2048)
     return true;
 };

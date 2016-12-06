@@ -33,13 +33,22 @@ function renderTiles () {
 
 function updateScore () {
   var score          = game.score;
-  var scoreContainer = document.getElementById("score").getElementsByTagName("span")[0];
+  var scoreContainer = document.getElementsByTagName("span");
 
-  scoreContainer.innerHTML = score;
+  Array.prototype.slice.call(scoreContainer).forEach(function (span) {
+    span.innerHTML = score;
+  });
 }
 
-function gameCanContinue () {
-  
+function gameStatus () {
+  if (game._win()) {
+    console.log("user wins");
+    // player wins
+  } else if (!game._getAvailablePosition()) {
+    document.getElementById("user-lose").classList = "";
+  } else {
+    console.log("game goes on");
+  }
 }
 
 function moveListeners (event) {
@@ -58,6 +67,7 @@ function moveListeners (event) {
   resetTiles();
   renderTiles();
   updateScore();
+  gameStatus();
 }
 
 document.addEventListener("keydown", moveListeners);
