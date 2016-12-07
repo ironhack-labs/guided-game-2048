@@ -26,7 +26,6 @@ Game2048.prototype._generateTile = function () {
 };
 
 Game2048.prototype._getAvailablePosition = function () {
-  console.log("viendo si hay");
   var emptyTiles = [];
 
   this.board.forEach(function(row, rowIndex){
