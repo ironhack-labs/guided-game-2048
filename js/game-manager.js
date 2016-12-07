@@ -30,12 +30,11 @@ Game2048.prototype._getAvailablePosition = function () {
 
   this.board.forEach(function(row, rowIndex){
     row.forEach(function(elem, colIndex){
-      if (!elem) emptyTiles.push({ x: rowIndex, y: colIndex });;
+      if (!elem) emptyTiles.push({ x: rowIndex, y: colIndex });
     });
   });
 
   this.lost = (emptyTiles.length === 0);
-
   if (this.lost) return;
 
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
@@ -52,6 +51,7 @@ Game2048.prototype._moveLeft = function () {
 
     for(i = 0; i < newRow.length - 1; i++) {
       if (newRow[i+1] === newRow[i]) {
+        ion.sound.play("tap");
         newRow[i]   = newRow[i] * 2;
         newRow[i+1] = null;
 
@@ -81,6 +81,7 @@ Game2048.prototype._moveRight = function () {
     for (i=newRow.length - 1; i>0; i--) {
       // If two adjacent tiles are equal, we collapse them and double value!
       if (newRow[i-1] === newRow[i]) {
+        ion.sound.play("tap");
         newRow[i]   = newRow[i] * 2;
         newRow[i-1] = null;
         that._updateScore(newRow[i]);
@@ -112,6 +113,7 @@ Game2048.prototype._moveDown = function () {
 };
 
 Game2048.prototype.move = function (direction) {
+  ion.sound.play("snap");
   if (!this.won) {
     switch (direction) {
       case "up":    boardChanged = this._moveUp();    break;
