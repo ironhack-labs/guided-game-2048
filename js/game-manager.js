@@ -8,6 +8,7 @@ function Game2048 () {
 
   this.score  = 0;
   this.won    = false;
+  this.lost   = false;
   this._generateTile();
   this._generateTile();
 }
@@ -33,7 +34,8 @@ Game2048.prototype._getAvailablePosition = function () {
     });
   });
 
-  if (emptyTiles.length === 0) return false;
+  this.lost = (emptyTiles.length === 0);
+  if (this.lost) return;
 
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
   return emptyTiles[randomPosition];
