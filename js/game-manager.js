@@ -1,100 +1,86 @@
-function GameManager () {
-  this.matrix = [];
+function Game2048 () {
+  this.board = [
+    [null,null,null,null],
+    [null,null,null,null],
+    [null,null,null,null],
+    [null,null,null,null]
+  ];
+
   this.score  = 0;
-
-  for (var i = 0; i < 4; i++) {
-    this.matrix.push([]);
-
-    for (var j = 0; j < 4; j++) {
-      this.matrix[i].push(null);
-    }
-  }
-
-  for (i = 0; i < 2; i++) {
-    this._generateTile();
-  }
+  this.won    = false;
+  this._generateTile();
+  this._generateTile();
 }
 
-// GameManager.prototype._renderBoard = function () {
-//   for (var i = 0; i < 4; i++) {
-//     console.log(this.matrix[i]);
-//   }
-//
-//   this._printScore();
-// };
-
-GameManager.prototype._generateTile = function () {
-  var initialValues = [2, 4];
-  var random        = Math.random();
-  var pos           = this._getAvailablePosition();
-
-  if (pos)
-    this.matrix[pos.x][pos.y] = random < 0.8 ? initialValues[0] : initialValues[1];
+Game2048.prototype._renderBoard = function () {
+  this.board.forEach(function(row){ console.log(row); });
+  console.log('Score: ' + this.score);
 };
 
-GameManager.prototype._getAvailablePosition = function () {
-  var availablePositions = [];
+Game2048.prototype._generateTile = function () {
+  var initialValue = (Math.random() < 0.8) ? 2 : 4;
+  var emptyTile = this._getAvailablePosition();
 
-  for (var i = 0; i < 4; i++) {
-    for (var j = 0; j < 4; j++) {
-      if (this.matrix[i][j] === null) {
-        availablePositions.push({ x: i, y: j });
-      }
-    }
-  }
-
-  if (availablePositions.length === 0) {
-    return false;
-  } else {
-    var randomPosition = Math.floor(Math.random() * availablePositions.length);
-    return availablePositions[randomPosition];
-  }
+  if (emptyTile) { this.board[emptyTile.x][emptyTile.y] = initialValue }
 };
 
-GameManager.prototype._moveLeft = function () {
+Game2048.prototype._getAvailablePosition = function () {
+  var emptyTiles = [];
+
+  this.board.forEach(function(row, rowIndex){
+    row.forEach(function(elem, colIndex){
+      if (!elem) emptyTiles.push({ x: rowIndex, y: colIndex });;
+    })
+  })
+
+  if (emptyTiles.length === 0) return false;
+
+  var randomPosition = Math.floor(Math.random() * emptyTiles.length);
+  return emptyTiles[randomPosition];
+};
+
+Game2048.prototype._moveLeft = function () {
   var newBoard = [];
   var that = this;
   var boardChanged = false;
 
-  this.matrix.forEach (function (row) {
+  this.board.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
 
     for(i = 0; i < newRow.length - 1; i++) {
       if (newRow[i+1] === newRow[i]) {
-        var value = newRow[i] * 2;
-        newRow[i] = value;
-        that._updateScore(value);
-        newRow[i + 1] = null;
+        newRow[i]   = newRow[i] * 2;
+        newRow[i+1] = null;
+
+        that._updateScore(newRow[i]);
       }
     }
 
     var merged = newRow.filter( function (i) { return i !== null; });
     while(merged.length < 4) { merged.push(null); }
-    if (newRow != row)
-      boardChanged = true;
+    if (newRow != row) boardChanged = true;
 
     newBoard.push(merged);
   });
 
-  this.matrix = newBoard;
+  this.board = newBoard;
   return boardChanged;
 };
 
-GameManager.prototype._moveRight = function () {
+Game2048.prototype._moveRight = function () {
   var newBoard = [];
   var that = this;
   var boardChanged = false;
 
-  this.matrix.forEach (function (row) {
+  this.board.forEach (function (row) {
     var newRow = row.filter(function (i) { return i !== null; });
 
-    for(i = newRow.length - 1; i > 0; i--) {
+    for (i=newRow.length - 1; i>0; i--) {
+      // If two adjacent tiles are equal, we collapse them and double value!
       if (newRow[i-1] === newRow[i]) {
-        var value = newRow[i] * 2;
-        newRow[i] = value;
-        that._updateScore(value);
-        that._win(value);
-        newRow[i - 1] = null;
+        newRow[i]   = newRow[i] * 2;
+        newRow[i-1] = null;
+        that._updateScore(newRow[i]);
       }
       if (newRow.length !== row.length)
         boardChanged = true;
@@ -105,58 +91,55 @@ GameManager.prototype._moveRight = function () {
     newBoard.push(merged);
   });
 
-  this.matrix = newBoard;
+  this.board = newBoard;
   return boardChanged;
 };
 
-GameManager.prototype._moveUp = function () {
+Game2048.prototype._moveUp = function () {
   this._transposeMatrix();
   var boardChanged = this._moveLeft();
   this._transposeMatrix();
   return boardChanged;
 };
 
-GameManager.prototype._moveDown = function () {
+Game2048.prototype._moveDown = function () {
   this._transposeMatrix();
   var boardChanged = this._moveRight();
   this._transposeMatrix();
   return boardChanged;
 };
 
-GameManager.prototype.move = function (direction) {
-  var scored;
-  switch (direction) {
-    case "up":    boardChanged = this._moveUp();    break;
-    case "down":  boardChanged = this._moveDown();  break;
-    case "left":  boardChanged = this._moveLeft();  break;
-    case "right": boardChanged = this._moveRight(); break;
-  }
+Game2048.prototype.move = function (direction) {
+  if (!this.won) {
+    switch (direction) {
+      case "up":    boardChanged = this._moveUp();    break;
+      case "down":  boardChanged = this._moveDown();  break;
+      case "left":  boardChanged = this._moveLeft();  break;
+      case "right": boardChanged = this._moveRight(); break;
+    }
 
-  if (boardChanged)
+    if (boardChanged)
     this._generateTile();
+  }
 
   // this._renderBoard();
 };
 
-GameManager.prototype._transposeMatrix = function() {
-  for (var row = 0; row < this.matrix.length; row++) {
-    for (var column = row+1; column < this.matrix.length; column++) {
-      var temp = this.matrix[row][column];
-      this.matrix[row][column] = this.matrix[column][row];
-      this.matrix[column][row] = temp;
+Game2048.prototype._transposeMatrix = function() {
+  for (var row = 0; row < this.board.length; row++) {
+    for (var column = row+1; column < this.board.length; column++) {
+      var temp = this.board[row][column];
+      this.board[row][column] = this.board[column][row];
+      this.board[column][row] = temp;
     }
   }
 };
 
-GameManager.prototype._updateScore = function(pointsGained) {
-  this.score += pointsGained;
+Game2048.prototype.win = function() {
+  return (this.won)
 };
 
-GameManager.prototype._printScore = function() {
-  console.log("Score:", this.score);
-};
-
-GameManager.prototype._win = function(value) {
-  if (value === 2048)
-    return true;
+Game2048.prototype._updateScore = function(value) {
+  this.score += value;
+  if (value === 2048) this.won = true;
 };

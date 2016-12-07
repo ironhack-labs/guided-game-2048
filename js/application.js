@@ -1,7 +1,7 @@
 var game;
 
 window.onload =function(){
-  game = new GameManager();
+  game = new Game2048();
   renderTiles();
 };
 
@@ -15,9 +15,9 @@ function resetTiles () {
 }
 
 function renderTiles () {
-  game.matrix.forEach(function(row, rowIndex){
+  game.board.forEach(function(row, rowIndex){
     row.forEach(function (cell, cellIndex) {
-      if (cell !== null) {
+      if (cell) {
         var tileContainer = document.getElementById("tile-container");
         var newTile       = document.createElement("div");
 
@@ -41,13 +41,10 @@ function updateScore () {
 }
 
 function gameStatus () {
-  if (game._win()) {
+  if (game.win()) {
     console.log("user wins");
-    // player wins
   } else if (!game._getAvailablePosition()) {
     document.getElementById("user-lose").classList = "";
-  } else {
-    console.log("game goes on");
   }
 }
 
