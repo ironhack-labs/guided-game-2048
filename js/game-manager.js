@@ -58,7 +58,7 @@ Game2048.prototype._moveLeft = function () {
 
     var merged = newRow.filter( function (i) { return i !== null; });
     while(merged.length < 4) { merged.push(null); }
-    if (newRow != row) boardChanged = true;
+    if (newRow.length !== row.length) boardChanged = true;
 
     newBoard.push(merged);
   });
@@ -82,8 +82,7 @@ Game2048.prototype._moveRight = function () {
         newRow[i-1] = null;
         that._updateScore(newRow[i]);
       }
-      if (newRow.length !== row.length)
-        boardChanged = true;
+      if (newRow.length !== row.length) boardChanged = true;
     }
 
     var merged = newRow.filter( function (i) { return i !== null; });
@@ -136,7 +135,7 @@ Game2048.prototype._transposeMatrix = function() {
 };
 
 Game2048.prototype.win = function() {
-  return (this.won)
+  return (this.won);
 };
 
 Game2048.prototype._updateScore = function(value) {
