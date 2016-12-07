@@ -26,6 +26,7 @@ Game2048.prototype._generateTile = function () {
 };
 
 Game2048.prototype._getAvailablePosition = function () {
+  console.log("viendo si hay");
   var emptyTiles = [];
 
   this.board.forEach(function(row, rowIndex){
@@ -34,9 +35,13 @@ Game2048.prototype._getAvailablePosition = function () {
     });
   });
 
+  // Fix this... emptyTiles.length is never === 0
+  // Working with _getAvailablePosition in application.js
   this.lost = (emptyTiles.length === 0);
-  if (this.lost) return;
 
+  if (this.lost) {
+    return false;
+  }
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
   return emptyTiles[randomPosition];
 };
@@ -141,6 +146,10 @@ Game2048.prototype._transposeMatrix = function() {
 
 Game2048.prototype.win = function() {
   return (this.won);
+};
+
+Game2048.prototype.lost = function() {
+  return (this.lost);
 };
 
 Game2048.prototype._updateScore = function(value) {
