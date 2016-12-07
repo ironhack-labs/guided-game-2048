@@ -8,6 +8,7 @@ function Game2048 () {
 
   this.score  = 0;
   this.won    = false;
+  this.lost   = false;
   this._generateTile();
   this._generateTile();
 }
@@ -21,7 +22,7 @@ Game2048.prototype._generateTile = function () {
   var initialValue = (Math.random() < 0.8) ? 2 : 4;
   var emptyTile = this._getAvailablePosition();
 
-  if (emptyTile) { this.board[emptyTile.x][emptyTile.y] = initialValue }
+  if (emptyTile) { this.board[emptyTile.x][emptyTile.y] = initialValue; }
 };
 
 Game2048.prototype._getAvailablePosition = function () {
@@ -30,10 +31,12 @@ Game2048.prototype._getAvailablePosition = function () {
   this.board.forEach(function(row, rowIndex){
     row.forEach(function(elem, colIndex){
       if (!elem) emptyTiles.push({ x: rowIndex, y: colIndex });;
-    })
-  })
+    });
+  });
 
-  if (emptyTiles.length === 0) return false;
+  this.lost = (emptyTiles.length === 0);
+
+  if (this.lost) return;
 
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
   return emptyTiles[randomPosition];

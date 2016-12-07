@@ -41,9 +41,9 @@ function updateScore () {
 }
 
 function gameStatus () {
-  if (game.win()) {
+  if (game.won) {
     console.log("user wins");
-  } else if (!game._getAvailablePosition()) {
+  } else if (game.lost) {
     document.getElementById("user-lose").classList = "";
   }
 }
