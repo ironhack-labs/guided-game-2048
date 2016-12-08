@@ -9,8 +9,6 @@ function Game2048 () {
   this.score  = 0;
   this.won    = false;
   this.lost   = false;
-  this.board[0][0] = 1024;
-  this.board[1][0] = 1024;
   this._generateTile();
   this._generateTile();
 }
