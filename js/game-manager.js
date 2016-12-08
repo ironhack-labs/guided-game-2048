@@ -9,6 +9,8 @@ function Game2048 () {
   this.score  = 0;
   this.won    = false;
   this.lost   = false;
+  this.board[0][0] = 1024;
+  this.board[1][0] = 1024;
   this._generateTile();
   this._generateTile();
 }
@@ -153,5 +155,7 @@ Game2048.prototype.lost = function() {
 
 Game2048.prototype._updateScore = function(value) {
   this.score += value;
-  if (value === 2048) this.won = true;
+  if (value === 2048) {
+    this.won = true;
+  }
 };

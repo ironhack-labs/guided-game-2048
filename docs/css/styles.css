@@ -227,3 +227,19 @@ h1 {
 #user-lose p {
   font-weight: normal;
 }
+
+#user-win {
+  background: rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  color: #3582b8;
+  font-size: 40px;
+  font-weight: bold;
+  height: 620px;
+  padding-top: 200px;
+  text-align: center;
+  width: 622px;
+}
+
+#user-win.hide {
+  display: none;
+}
