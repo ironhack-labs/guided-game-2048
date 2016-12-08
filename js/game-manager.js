@@ -153,5 +153,7 @@ Game2048.prototype.lost = function() {
 
 Game2048.prototype._updateScore = function(value) {
   this.score += value;
-  if (value === 2048) this.won = true;
+  if (value === 2048) {
+    this.won = true;
+  }
 };

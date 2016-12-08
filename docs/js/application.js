@@ -53,7 +53,7 @@ function updateScore () {
 
 function gameStatus () {
   if (game.win()) {
-    console.log("user wins");
+    document.getElementById("user-win").classList = "";
   } else if (!game._getAvailablePosition()) {
     document.getElementById("user-lose").classList = "";
   }
