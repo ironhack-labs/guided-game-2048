@@ -34,13 +34,9 @@ Game2048.prototype._getAvailablePosition = function () {
     });
   });
 
-  // Fix this... emptyTiles.length is never === 0
-  // Working with _getAvailablePosition in application.js
-  this.lost = (emptyTiles.length === 0);
-
-  if (this.lost) {
+  if (emptyTiles.length === 0)
     return false;
-  }
+
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
   return emptyTiles[randomPosition];
 };
@@ -118,7 +114,8 @@ Game2048.prototype._moveDown = function () {
 
 Game2048.prototype.move = function (direction) {
   ion.sound.play("snap");
-  if (!this.won) {
+
+  if (!this._gameFinished()) {
     switch (direction) {
       case "up":    boardChanged = this._moveUp();    break;
       case "down":  boardChanged = this._moveDown();  break;
@@ -126,11 +123,11 @@ Game2048.prototype.move = function (direction) {
       case "right": boardChanged = this._moveRight(); break;
     }
 
-    if (boardChanged)
-    this._generateTile();
+    if (boardChanged) {
+      this._generateTile();
+      this._isGameLost();
+    }
   }
-
-  // this._renderBoard();
 };
 
 Game2048.prototype._transposeMatrix = function() {
@@ -143,15 +140,46 @@ Game2048.prototype._transposeMatrix = function() {
   }
 };
 
+Game2048.prototype._gameFinished = function () {
+  return this.won && this.lost;
+};
+
+Game2048.prototype._isGameLost = function () {
+  if (this._getAvailablePosition())
+    return;
+
+  var that   = this;
+  var isLost = true;
+
+  this.board.forEach(function (row, rowIndex) {
+    row.forEach(function (cell, cellIndex) {
+      var current = that.board[rowIndex][cellIndex];
+      var top, bottom, left, right;
+
+      if (that.board[rowIndex][cellIndex - 1]) { left  = that.board[rowIndex][cellIndex - 1]; }
+      if (that.board[rowIndex][cellIndex + 1]) { right = that.board[rowIndex][cellIndex + 1]; }
+      if (that.board[rowIndex - 1]) { top    = that.board[rowIndex - 1][cellIndex]; }
+      if (that.board[rowIndex + 1]) { bottom = that.board[rowIndex + 1][cellIndex]; }
+
+      if (current === top || current === bottom || current === left || current === right)
+        isLost = false;
+    });
+  });
+
+  this.lost = isLost;
+};
+
 Game2048.prototype.win = function() {
   return (this.won);
 };
 
-Game2048.prototype.lost = function() {
+Game2048.prototype.lose = function() {
   return (this.lost);
 };
 
 Game2048.prototype._updateScore = function(value) {
   this.score += value;
-  if (value === 2048) this.won = true;
+  if (value === 2048) {
+    this.won = true;
+  }
 };

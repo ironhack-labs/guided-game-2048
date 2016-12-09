@@ -10,7 +10,7 @@ function loadSounds () {
   ion.sound({
     sounds: [{name: "snap"}, {name: "tap"}],
 
-    path: "/guided-game-2048/lib/ion.sound-3.0.7/sounds/",
+    path: "../lib/ion.sound-3.0.7/sounds/",
     preload: true,
     volume: 1.0
   });
@@ -44,7 +44,7 @@ function renderTiles () {
 
 function updateScore () {
   var score          = game.score;
-  var scoreContainer = document.getElementsByTagName("span");
+  var scoreContainer = document.getElementsByClassName("js-score");
 
   Array.prototype.slice.call(scoreContainer).forEach(function (span) {
     span.innerHTML = score;
@@ -53,9 +53,9 @@ function updateScore () {
 
 function gameStatus () {
   if (game.win()) {
-    document.getElementById("user-win").classList = "";
-  } else if (!game._getAvailablePosition()) {
-    document.getElementById("user-lose").classList = "";
+    document.getElementById("game-over").classList = "show-won";
+  } else if (game.lose()) {
+    document.getElementById("game-over").classList = "show-lost";
   }
 }
 
