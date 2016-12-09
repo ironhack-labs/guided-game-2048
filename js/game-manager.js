@@ -115,7 +115,7 @@ Game2048.prototype._moveDown = function () {
 Game2048.prototype.move = function (direction) {
   ion.sound.play("snap");
 
-  if (!this._canContinue()) {
+  if (!this._gameFinished()) {
     switch (direction) {
       case "up":    boardChanged = this._moveUp();    break;
       case "down":  boardChanged = this._moveDown();  break;
@@ -125,6 +125,7 @@ Game2048.prototype.move = function (direction) {
 
     if (boardChanged) {
       this._generateTile();
+      this._isGameLost();
     }
   }
 };
@@ -139,8 +140,33 @@ Game2048.prototype._transposeMatrix = function() {
   }
 };
 
-Game2048.prototype._canContinue = function () {
+Game2048.prototype._gameFinished = function () {
   return this.won && this.lost;
+};
+
+Game2048.prototype._isGameLost = function () {
+  if (this._getAvailablePosition())
+    return;
+
+  var that   = this;
+  var isLost = true;
+
+  this.board.forEach(function (row, rowIndex) {
+    row.forEach(function (cell, cellIndex) {
+      var current = that.board[rowIndex][cellIndex];
+      var top, bottom, left, right;
+
+      if (that.board[rowIndex][cellIndex - 1]) { left  = that.board[rowIndex][cellIndex - 1]; }
+      if (that.board[rowIndex][cellIndex + 1]) { right = that.board[rowIndex][cellIndex + 1]; }
+      if (that.board[rowIndex - 1]) { top    = that.board[rowIndex - 1][cellIndex]; }
+      if (that.board[rowIndex + 1]) { bottom = that.board[rowIndex + 1][cellIndex]; }
+
+      if (current === top || current === bottom || current === left || current === right)
+        isLost = false;
+    });
+  });
+
+  this.lost = isLost;
 };
 
 Game2048.prototype.win = function() {
