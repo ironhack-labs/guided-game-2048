@@ -52,12 +52,9 @@ function updateScore () {
 }
 
 function gameStatus () {
-  console.log("lost", game.lost());
-  console.log("won", game.won());
-
-  if (game.won()) {
+  if (game.win()) {
     document.getElementById("game-over").classList = "show-won";
-  } else if (game.lost()) {
+  } else if (game.lose()) {
     document.getElementById("game-over").classList = "show-lost";
   }
 }
