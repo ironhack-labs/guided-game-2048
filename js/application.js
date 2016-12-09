@@ -3,18 +3,7 @@ var game;
 window.onload =function(){
   game = new Game2048();
   renderTiles();
-  loadSounds();
 };
-
-function loadSounds () {
-  ion.sound({
-    sounds: [{name: "snap"}, {name: "tap"}],
-
-    path: "/guided-game-2048/lib/ion.sound-3.0.7/sounds/",
-    preload: true,
-    volume: 1.0
-  });
-}
 
 function resetTiles () {
   var tilesContainer = document.getElementById("tile-container");
