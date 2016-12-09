@@ -1,15 +1,14 @@
-html {
-  background: url(../img/background.jpg);
-  background-size: cover;
-}
-
 html, body {
-  /*background: #ededed;*/
   color: #3c5566;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 18px;
   margin: 0;
   padding: 0;
+}
+
+html {
+  background: url(../img/background.jpg);
+  background-size: cover;
 }
 
 header {
@@ -47,8 +46,7 @@ h1 {
 
 #game-board,
 #tile-container,
-#user-win,
-#user-lose {
+#game-over {
   background: #3582b8;
   border-radius: 4px;
   padding: 10px;
@@ -140,8 +138,7 @@ h1 {
 }
 
 #tile-container,
-#user-lose,
-#user-win {
+#game-over {
   top: 0;
   position: absolute;
 }
@@ -210,7 +207,7 @@ h1 {
   transform: translate(450px, 450px);
 }
 
-#user-lose {
+#game-over {
   background: rgba(255, 255, 255, 0.7);
   box-sizing: border-box;
   color: #3582b8;
@@ -222,12 +219,21 @@ h1 {
   width: 622px;
 }
 
-#user-lose.hide {
+#game-over.hide {
   display: none;
 }
 
-#user-lose,
-#user-win p {
+#game-over .won,
+#game-over .lost {
+  display: none;
+}
+
+#game-over.show-won .won,
+#game-over.show-lost .lost {
+  display: inline;
+}
+
+#game-over p {
   font-weight: normal;
 }
 

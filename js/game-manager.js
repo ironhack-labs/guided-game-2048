@@ -34,13 +34,9 @@ Game2048.prototype._getAvailablePosition = function () {
     });
   });
 
-  // Fix this... emptyTiles.length is never === 0
-  // Working with _getAvailablePosition in application.js
-  this.lost = (emptyTiles.length === 0);
-
-  if (this.lost) {
+  if (emptyTiles.length === 0)
     return false;
-  }
+
   var randomPosition = Math.floor(Math.random() * emptyTiles.length);
   return emptyTiles[randomPosition];
 };
@@ -118,7 +114,8 @@ Game2048.prototype._moveDown = function () {
 
 Game2048.prototype.move = function (direction) {
   ion.sound.play("snap");
-  if (!this.won) {
+
+  if (!this._canContinue()) {
     switch (direction) {
       case "up":    boardChanged = this._moveUp();    break;
       case "down":  boardChanged = this._moveDown();  break;
@@ -126,11 +123,10 @@ Game2048.prototype.move = function (direction) {
       case "right": boardChanged = this._moveRight(); break;
     }
 
-    if (boardChanged)
-    this._generateTile();
+    if (boardChanged) {
+      this._generateTile();
+    }
   }
-
-  // this._renderBoard();
 };
 
 Game2048.prototype._transposeMatrix = function() {
@@ -143,11 +139,15 @@ Game2048.prototype._transposeMatrix = function() {
   }
 };
 
+Game2048.prototype._canContinue = function () {
+  return this.won && this.lost;
+};
+
 Game2048.prototype.win = function() {
   return (this.won);
 };
 
-Game2048.prototype.lost = function() {
+Game2048.prototype.lose = function() {
   return (this.lost);
 };
 
