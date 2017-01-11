@@ -20,7 +20,7 @@ In the next four learning units, we are going to create the [2048 game](https://
 
 The goal of the game is to get the number 2048 using additions of the **number 2 and its multiples**. The user starts with a 4x4 grid, that initially contains two tiles that could have just two different values: 2 or 4.
 
-![](https://i.imgur.com/kgre6NM.png =300x300)
+![2048 picture](https://i.imgur.com/kgre6NM.png =300x)
 
 The user moves the tiles in any direction with the objective of joining two numbers with the same value. In the image above, moving the tiles to the left will cause the two 8 on the bottom left corner to be merged into a 16.
 
@@ -28,7 +28,7 @@ After each player move, the game will generate a new tile with value 2 or 4, and
 
 The game is over when there aren't valid moves available. This is you have the board full of tiles and none of them can be merged.
 
-![A game over](https://i.imgur.com/jIavI0p.png =300x300)
+![A game over](https://i.imgur.com/jIavI0p.png =300x)
 
 ## Private/Public methods convention
 
